@@ -4,9 +4,10 @@ from tqdm import tqdm
 import os
 from models import mlp
 from data.dataset import data_loader
+from data.dataset import data_loader_attacks
 
 
-root_dir = "./data/TB_data"
+root_dir = "./data/attack-data/0.03"
 
 
 def test_vit(model, dataloader_test):
@@ -68,13 +69,13 @@ parser.add_argument('--mlp_path', type=str ,
                     help='pass the path for the downloaded MLPs folder')
 args = parser.parse_args()
 
-loader_, dataset_ = data_loader(root_dir=root_dir)
+loader_, dataset_ = data_loader_attacks(root_dir=root_dir, attack_name='FGSM')
 
 model = torch.load(args.vit_path).cuda()
 model.eval()
 
 if args.model_name == 'ViT':
-    acc = test_vit(model=model, dataloader_test=loader_['test'])
+    acc = test_vit(model=model, dataloader_test=loader_)
 else:
     mlps_list = sorted(os.listdir(args.mlp_path))
-    acc = test_mlps(mlps_list= mlps_list, dataloader_test=loader_['test'], mlp_root_dir=args.mlp_path)
+    acc = test_mlps(mlps_list= mlps_list, dataloader_test=loader_, mlp_root_dir=args.mlp_path)
