@@ -164,3 +164,4 @@ data/attack-data/
 
 models/MLP_new_chest/
 models/vit_base_patch16_224_in21k_test-accuracy_0.96_chest.pth
+saved_model/
