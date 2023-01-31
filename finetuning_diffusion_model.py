@@ -29,7 +29,7 @@ train_dataloader = loader_['train']
 
 def train(train_dataloader, epoch_st, epoch_end, lr=1e-4):
 
-    image_pipe = DDPMPipeline.from_pretrained("saved_model/my-finetuned-model_69")
+    image_pipe = DDPMPipeline.from_pretrained("saved_model/my-finetuned-model_86")
     image_pipe.to(device);
     grad_accumulation_steps = 2  # @param
 
@@ -84,5 +84,18 @@ def train(train_dataloader, epoch_st, epoch_end, lr=1e-4):
 
     return image_pipe
 
+def test():
+    image_pipe = DDPMPipeline.from_pretrained("saved_model/my-finetuned-model_135")
+    image_pipe.to(device);
+    scheduler = DDIMScheduler.from_pretrained("saved_model/my-finetuned-model_135/scheduler")
+    x = torch.randn(8, 3, 256, 256).to(device)  # Batch of 8
+    for i, t in tqdm(enumerate(scheduler.timesteps)):
+        model_input = scheduler.scale_model_input(x, t)
+        with torch.no_grad():
+            noise_pred = image_pipe.unet(model_input, t)["sample"]
+        x = scheduler.step(noise_pred, t, x).prev_sample
+    grid = torchvision.utils.make_grid(x, nrow=4)
+    plt.imshow(grid.permute(1, 2, 0).cpu().clip(-1, 1) * 0.5 + 0.5);
 
-model = train(train_dataloader=train_dataloader,epoch_st=70,epoch_end=100)
+
+model = train(train_dataloader=train_dataloader,epoch_st=86,epoch_end=150)
