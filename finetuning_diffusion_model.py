@@ -27,7 +27,7 @@ device = (
 
 
 root_dir = "data/TB_data"
-loader_, dataset = data_loader(root_dir=root_dir, batch_size=12)
+loader_, dataset = data_loader(root_dir=root_dir, batch_size=8)
 train_dataloader = loader_['train']
 
 net = UNet2DModel(

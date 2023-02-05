@@ -7,7 +7,7 @@ import torchvision.transforms as transforms
 
 
 # DataLoader and Dataset (Clean Samples)
-def data_loader( root_dir, image_size = (224,224), batch_size= 30, train_dir = 'training',test_dir = 'testing',  vald_dir = 'validation'): 
+def data_loader( root_dir, image_size = (224,224), batch_size= 15, train_dir = 'training',test_dir = 'testing',  vald_dir = 'validation'): 
         """
         Class to create Dataset and DataLoader from Image folder. 
         Args: 
@@ -29,10 +29,10 @@ def data_loader( root_dir, image_size = (224,224), batch_size= 30, train_dir = '
 
         data_transform = {
                 'train': transforms.Compose([
-                transforms.Grayscale(num_output_channels=3),
-                transforms.RandomRotation (20),
+               # transforms.Grayscale(num_output_channels=3),
+               # transforms.RandomRotation (20),
                 transforms.Resize(image_size),
-                transforms.RandomAffine(degrees =0,translate=(0.1,0.1)),
+               # transforms.RandomAffine(degrees =0,translate=(0.1,0.1)),
                 transforms.ToTensor()
                 ]), 
 

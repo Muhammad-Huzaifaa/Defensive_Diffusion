@@ -2,6 +2,7 @@
 import foolbox as fb
 import torch
 import torch.nn as nn
+from autoattack import AutoAttack
 
 class Attack(): 
     """
@@ -17,7 +18,8 @@ class Attack():
     def __init__(self, epsilon, attack_type, model) :
         self.epsilon= epsilon
         self.attack_type = attack_type
-        self.model_fool = fb.models.PyTorchModel(model ,bounds=(0,1))        
+        self.model_fool = fb.models.PyTorchModel(model ,bounds=(0,1))  
+        self.adversary = AutoAttack(model, norm='Linf', eps=self.epsilon, version='standard')      
 
     def FGSM(self, samples, labels):
         """
@@ -140,6 +142,22 @@ class Attack():
                                             epsilons = self.epsilon)
         return adv_images, success  
 
+    def AutoAttack(self, samples, labels):
+        """
+        Generate Auto attacks. 
+        Args: 
+            samples -> clean images 
+            labels -> labels of clean images  
+
+        return:
+            adversarial images generated from the clean images 
+            success tensor shows whether the attack succeded in fooling the model or not
+
+        """
+        x_adv = self.adversary.run_standard_evaluation(samples, labels, bs=15)
+        success = None
+        return x_adv, success 
+
     def generate_attack(self, samples, labels):
         """
         Generate attacks. 
@@ -170,6 +188,9 @@ class Attack():
             return  adv_img, success
         elif self.attack_type =='LinfBIM': 
             adv_img, success = self.LinfBIM(samples, labels)
+            return adv_img, success
+        elif self.attack_type =='AutoAttack': 
+            adv_img, success = self.AutoAttack(samples, labels)
             return adv_img, success
         else: 
             print(f'Attacks of type {self.attack_type} is not supported') 

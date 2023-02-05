@@ -163,3 +163,11 @@ data/attack-data/
 models/MLP_new_chest/
 models/vit_base_patch16_224_in21k_test-accuracy_0.96_chest.pth
 saved_model/
+
+
+block_3_classifier_0.93test_0.99train.pth
+block_4_classifier_0.92test_1.00train.pth
+data/my-finetuned-model_42/
+data/my-finetuned-model_67/
+saved_model_scratch/
+wandb/

@@ -4,6 +4,7 @@ import argparse
 from attack import Attack
 from utils import *
 from data.dataset import data_loader
+from mlp import Big_model
 
 parser = argparse.ArgumentParser(description='Generate Attack from ViT')
 
@@ -20,14 +21,17 @@ args = parser.parse_args()
 root_dir = "./data/TB_data"
 loader_, dataset_ = data_loader(root_dir=root_dir)
 
-model = torch.load(args.vit_path).cuda()
-model.eval()
-
+""" model = torch.load(args.vit_path).cuda()
+model.eval() """
+device = torch.device("cuda")
+model_mlp = Big_model()
+model_mlp.to(device)
+model_mlp.eval()
 
 #Generate and save attacks
 generate_save_attacks(
     attack_names= args.attack_list,
-    model= model,
+    model= model_mlp,
     samples= loader_['test'], 
     classes= ['Normal', 'Tuberculosis'],
     attack_image_dir= args.attack_images_dir,
