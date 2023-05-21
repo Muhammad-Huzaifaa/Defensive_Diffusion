@@ -1,4 +1,4 @@
-# On enhancement of SEVIT for Chest XRay Classification using Defensive Distillation and Adversarial Training. 
+# On enhancing the robustness of Vision Transformers: Defensive Diffusion. 
 
 <hr />
 
