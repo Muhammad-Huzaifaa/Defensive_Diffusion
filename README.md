@@ -2,7 +2,7 @@
 
 <hr />
 
-![Method](Figures/Method (2).png)
+(Figures/Method (2).png)
 
 ## Abstract 
 Privacy and confidentiality of medical data are of utmost importance in healthcare
